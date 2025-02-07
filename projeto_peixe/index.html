@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+   <!-- O que essa parte faz? -->
+    <meta charset="UTF-8">
+
+    <!-- Primeiro indica que essa configuração afetará a área de exibição do navegador.
+    Logo depois define essa mudança para a largura da tela do dispositivo, e por fim define
+    o zoom inicial da página, que neste caso é o padrão (1.0 = 100%) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     
+    <!-- Cria uma frase, nesse caso uma palavra, destacada das demais -->
+    <title>Peixinho</title>
+
+    <style>
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+    </style>
+        
+        <!-- Esta parte carrega o arquivo da linguagem utilizada, nesse caso Phaser -->
+    <script src="phaser.js"></script>
+</head>
+
+
+<body>
+<!-- Já nesta carrega e executa o script utilizado para criação e configuração do jogo -->
+<script src="peixe.js"></script>
+
+</body>
+</html>
