@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
+    <title>Exercício do Pássaro</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<script>
+    
+    var config = {
+        type: Phaser.AUTO,
+        width: 800,
+        height: 600,
+
+        scene: {
+            preload: preload,
+            create: create,
+            update: update
+        }
+    };
+
+    var game = new Phaser.Game(config);
+
+    // Criação da variável do passarinho utilizada durante todo o resto do código
+    var passarinho;
+
+    // Carrega as imagens dos objetos/fundo utilizados na página.
+    function preload() {
+        this.load.image('bg', 'assets/bg_space.png');
+        this.load.spritesheet('bird', 'assets/bird-green.png', { frameWidth: 75, frameHight: 75});
+    }
+
+    // Adiciona os objetos na tela e inicia o objeto com os parâmetros iniciais do voo
+    function create() {
+        this.add.image(400, 300, 'bg').setScale(1.2);
+        passarinho = this.add.sprite(100,300, 'bird').setScale(1.3);
+        // Cria a quantidade de frames que possuirá na animação e a quantidade de repetições a 
+        // animação terá (infinita).
+        this.anims.create({
+            key: 'fly',
+            frames: this.anims.generateFrameNumbers('bird', { start: 0, end: 7}),
+            frameRate: 10,
+            repeat: -1
+        });
+        // Inicia a troca de imagens do passarinho para representar o movimento visual dele (animação)
+        passarinho.anims.play('fly', true);
+    }
+
+    // Define a movimentação do passarinho para ele voar horizontalmente infinitamente na página.
+    function update() { 
+        // Variável sobe indica se deve subir ou descer, quando não existe ou chega no topo, defino 
+        // para descer adicionando 5 pixels de espaco
+        if (typeof sobe === "undefined" || passarinho.y === 100){
+            sobe = 5;
+        } 
+        // caso chegue na base da tela, retiro 5 pixels de cada isnteraçao para ele subir
+        if (passarinho.y === 500){
+            sobe = -5;
+        }
+        // Se o passarinho estiver no ponto inicial definido (100 no eixo x), primeiro define para
+        // não espelhar a imagem, após isso define a variável da movimentação do passarinho para a
+        // direita (denominado no código como .ida) como verdadeiro. 
+        if (passarinho.x === 100) {
+            passarinho.setFlip(false, false);
+            passarinho.ida = true;
+            // Adicionado um loop de 10 interações para a movimentação no eixo y ficar mais rápida 
+            for (let y = 0; y < 10; y++) {
+                passarinho.y += sobe;
+            }
+        }
+
+        // Agora se a variável da movimentação do passarinho para a direita definida anteriormente 
+        // (denominado no código como .ida) for verdadeira e menor que 700 (ponto final definido no
+        // proximo if), aciona a movimentação do passarinho para a direita a uma velocidade de 5 
+        // pixels por tick.
+        if (passarinho.x < 700 && passarinho.ida === true) {
+            // Logando para depuração da tela
+            console.log("O que acontece");
+            passarinho.x += 5;
+        }
+
+        // Se o passarinho estiver no ponto final definido (700 no eixo x) primeiro define para 
+        // espelhar a imagem apenas horizontalmente, invertendo toda a animação para a esquerda, 
+        // e após isso define a variável da movimentação do passarinho para a direita 
+        // (denominado no código como .ida) como falso.
+        if (passarinho.x === 700) {
+            passarinho.setFlip(true, false);
+            passarinho.ida = false;
+            // Adicionado um loop de 10 interações para a movimentação no eixo y ficar mais rápida 
+            y=0;
+            do {
+                y++;
+                passarinho.y += sobe
+            } while (y<10)
+        }
+
+        // Agora se a variável da movimentação do passarinho para a direita definida anteriormente
+        // (denominado no código como .ida) for falsa e ter chegado no ponto final, comeca a 
+        // diminuir a velocidade (movimentar o passarinho para a esquerda) ate chegar no ponto 
+        // inicial e voltar ao inicio do loop.
+        if (passarinho.x > 100 && passarinho.ida === false) {
+            console.log("e o que acontece agora?")
+            passarinho.x -= 5;
+        }
+
+    }
+
+</script>
+
+</body>
+</html>
